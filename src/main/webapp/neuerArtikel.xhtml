@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+	<title><ui:insert name="title">Kundenverwaltung</ui:insert></title>
+	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
+	<link rel="stylesheet" href="resources/fontaws/css/font-awesome.css" />
+	<link rel="shortcut icon" href="resources/IMAGES/logo1.jpg" />
+</h:head>
+
+<h:body>
+	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
+	<h:form id="top">
+		<b:navBar id="top" brand="BELISO"
+			brandImg="resources/IMAGES/logo1.png"
+			brand-img-style="width:60px;
+			height:40px" fluid="true"
+			position="top" sticky="true">
+			<b:navbarLinks pull="right">
+				<b:navCommandLink href="#">
+					<b:iconAwesome name="group" />
+					<h:outputLabel value="Contact" />
+				</b:navCommandLink>
+				<b:navCommandLink href="#">
+					<b:iconAwesome name="balance-scale" />
+					<h:outputLabel value="Impressum" />
+				</b:navCommandLink>
+				<b:navCommandLink href="#">
+					<b:iconAwesome name="leaf" />
+					<h:outputLabel value="Ueber uns" />
+				</b:navCommandLink>
+			</b:navbarLinks>
+		</b:navBar>
+	</h:form>
+	<hr width="80%" align="center" />
+	<h2 id="headPage" align="center">
+		<ui:insert name="headPage">Neue Artikel erstellen</ui:insert>
+	</h2>
+	<hr width="80%" align="center" />
+	<b:container id="content" align="center">
+		<h:form id="neuArtikel">
+			<p:growl placementFrom="top" show-detail="true" global-only="false"
+				show-summary="true" allow-dismiss="true"
+				animation-enter="animated bounceInDown"
+				animation-exit="animated flipOutX" escape="true" />
+
+			<h:panelGrid var="artikel" value="#{artikelHandler.merkeArtikel}"
+				columns="2" headerClass="header" footerClass="footer">
+
+				<h:outputLabel value="Image:" for="img" />
+				<h:panelGroup>
+					<p:fileUpload id="img" value="#{artikelHandler.uploadedFile}"
+						mode="advanced" dragDropSupport="true" sizeLimit="3000000"
+						allowTypes="/(\.|\/)(gif|jpeg|png)$/" />
+				</h:panelGroup>
+
+				<h:outputLabel value="Name:" for="name" />
+				<h:panelGroup>
+					<h:inputText id="name" required="true" requiredMessage="Name fehlt"
+						value="#{artikelHandler.merkeArtikel.name}" />
+				</h:panelGroup>
+
+				<h:outputLabel value="Anzahl:" for="anzahl" />
+				<h:panelGroup>
+					<h:inputText id="anzahl" converter="javax.faces.Integer"
+						required="true" requiredMessage="Adresse fehlt"
+						value="#{artikelHandler.merkeArtikel.anzahl}" />
+				</h:panelGroup>
+
+				<h:outputLabel value="Preis:" for="preis" />
+				<h:panelGroup>
+					<h:inputText id="preis" converter="javax.faces.Double"
+						required="true" requiredMessage="Preis fehlt"
+						value="#{artikelHandler.merkeArtikel.preis}" />
+				</h:panelGroup>
+
+				<h:outputLabel value="Beschreibung:" for="desc" />
+				<h:panelGroup>
+					<p:inputTextarea id="desc"
+						value="#{artikelHandler.merkeArtikel.beschreibung}" />
+				</h:panelGroup>
+			</h:panelGrid>
+			<br />
+			<p:commandButton action="#{artikelHandler.speichernArtikel}"
+				value="Speichern" />
+			<p:commandButton
+				action="#{artikelHandler.abbrechen(loginHandler.user)}"
+				value="Abbrechen" />
+		</h:form>
+		<br />
+	</b:container>
+
+	<b:container id="footer">
+		<ui:insert name="footer">
+			<span>Copyright 2019 | Ben Inza Coulibaly | Amadou Sow |
+				Lionel Babou</span>
+		</ui:insert>
+	</b:container>
+</h:body>
+
+</html>
